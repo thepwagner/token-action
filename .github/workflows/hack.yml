@@ -12,11 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/github-script@v6
-        id: oidc
+      - uses: actions/checkout@v3
+      - uses: ./
+        id: token
         with:
-          script: |
-            const tok = await core.getIDToken("github-token-action-server");
-            core.setOutput("token", tok);
+          server: 'https://f0e3-99-250-87-101.ngrok.io'
+          repositories: |
+            - thepwagner/github-token-action
+            - thepwagner/github-token-action-server
+          permissions: |
+            contents: read
       - run: |
-          curl -d '{"repositories":[],"permissions":{"organization_projects":"write"}}' -H "Authorization: Bearer ${{steps.oidc.outputs.token}}" -X POST https://ef59-99-250-87-101.ngrok.io
+          mkdir 'tmp'
+          cd tmp
+          git clone "https://x-access-token:${{steps.token.outputs.token}}@github.com/thepwagner/github-token-action.git"
+          git clone "https://x-access-token:${{steps.token.outputs.token}}@github.com/thepwagner/github-token-action-server.git"
+          ls -l
+          echo 'two private repos, cool trick eh?'

@@ -1,0 +1,15 @@
+name: 'GitHub Token Action'
+description: 'Issue GitHub tokens'
+author: 'Peter Wagner'
+inputs:
+  server:
+    description: 'Address of github-token-action-server'
+    required: true
+  repositories:
+    description: 'List of repositories'
+  permissions:
+    description: 'Map of permissions'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
