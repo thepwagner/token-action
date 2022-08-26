@@ -1,8 +1,8 @@
 {
-  "name": "github-token-action",
+  "name": "token-action",
   "version": "0.0.0",
   "private": true,
-  "description": "Request tokens from github-token-action-server",
+  "description": "Request tokens from github-token-factory-oidc",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
