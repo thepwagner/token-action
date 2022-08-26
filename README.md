@@ -1,1 +1,1 @@
-# github-token-action
+# token-action
