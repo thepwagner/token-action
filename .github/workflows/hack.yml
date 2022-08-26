@@ -16,7 +16,7 @@ jobs:
       - uses: ./
         id: token
         with:
-          server: 'https://f0e3-99-250-87-101.ngrok.io'
+          server: 'https://94fa-99-250-87-101.ngrok.io'
           repositories: |
             - thepwagner/github-token-action
             - thepwagner/github-token-action-server
