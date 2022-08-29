@@ -1,10 +1,21 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 import {HttpClient} from '@actions/http-client'
 import {BearerCredentialHandler} from '@actions/http-client/lib/auth'
 import YAML from 'yaml'
+import * as state from './state'
 
 async function run(): Promise<void> {
   try {
+    if (state.IsPost) {
+      if (state.ExistingToken !== '') {
+        const gh = github.getOctokit(state.ExistingToken)
+        await gh.rest.apps.revokeInstallationAccessToken()
+        core.info('Token revoked')
+      }
+      return
+    }
+
     const repositories = getRepositories()
     const permissions = getPermissions()
 
@@ -27,6 +38,7 @@ async function run(): Promise<void> {
     }
     core.setSecret(token)
     core.setOutput('token', token)
+    state.saveToken(token)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
