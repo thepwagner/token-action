@@ -7,13 +7,12 @@ import * as state from './state'
 
 async function run(): Promise<void> {
   try {
-    core.info(`state ${state.IsPost}`)
-    core.info(`yoink ${!!process.env['STATE_isPost']}`)
-
-    if (state.IsPost && state.ExistingToken !== '') {
-      const gh = github.getOctokit(state.ExistingToken)
-      await gh.rest.apps.revokeInstallationAccessToken()
-      core.info('Token revoked')
+    if (state.IsPost) {
+      if (state.ExistingToken !== '') {
+        const gh = github.getOctokit(state.ExistingToken)
+        await gh.rest.apps.revokeInstallationAccessToken()
+        core.info('Token revoked')
+      }
       return
     }
 

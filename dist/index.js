@@ -42,12 +42,12 @@ const yaml_1 = __importDefault(__nccwpck_require__(4083));
 const state = __importStar(__nccwpck_require__(9249));
 async function run() {
     try {
-        core.info(`state ${state.IsPost}`);
-        core.info(`yoink ${!!process.env['STATE_isPost']}`);
-        if (state.IsPost && state.ExistingToken !== '') {
-            const gh = github.getOctokit(state.ExistingToken);
-            await gh.rest.apps.revokeInstallationAccessToken();
-            core.info('Token revoked');
+        if (state.IsPost) {
+            if (state.ExistingToken !== '') {
+                const gh = github.getOctokit(state.ExistingToken);
+                await gh.rest.apps.revokeInstallationAccessToken();
+                core.info('Token revoked');
+            }
             return;
         }
         const repositories = getRepositories();
@@ -144,6 +144,10 @@ function saveToken(token) {
     core.saveState(`${actionID}-token`, token);
 }
 exports.saveToken = saveToken;
+// Publish a variable, so we can detect the re-invocation by `post:`.
+if (!exports.IsPost) {
+    core.saveState('isPost', 'true');
+}
 
 
 /***/ }),

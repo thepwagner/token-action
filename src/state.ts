@@ -9,3 +9,8 @@ export const ExistingToken = core.getState(`${actionID}-token`)
 export function saveToken(token: string): void {
   core.saveState(`${actionID}-token`, token)
 }
+
+// Publish a variable, so we can detect the re-invocation by `post:`.
+if (!IsPost) {
+  core.saveState('isPost', 'true')
+}
