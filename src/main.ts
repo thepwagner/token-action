@@ -32,13 +32,16 @@ async function run(): Promise<void> {
     const res = await http.post(server, tokenReq)
 
     const body = await res.readBody()
-    const token = JSON.parse(body)['token'] as string
+    const parsed = JSON.parse(body)
+    const token = parsed['token'] as string
     if (!token) {
       throw new Error('no token')
     }
     core.setSecret(token)
     core.setOutput('token', token)
-    state.saveToken(token)
+    if (parsed['revocable']) {
+      state.saveToken(token)
+    }
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
