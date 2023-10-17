@@ -31,7 +31,7 @@
     "yaml": "2.3.2"
   },
   "devDependencies": {
-    "@types/mustache": "4.2.2",
+    "@types/mustache": "4.2.3",
     "@types/node": "16.18.57",
     "@typescript-eslint/parser": "^6.2.0",
     "@vercel/ncc": "0.38.0",
